@@ -1,4 +1,4 @@
-from han import Action
+from .han import Action
 
 increment = Action("Increment")
 decrement = Action("Decrement")

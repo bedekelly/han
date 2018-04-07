@@ -1,13 +1,13 @@
 from flask import request
 from . import app, han
-from actions import increment, decrement, new_post, count_posts
+from .actions import increment, decrement, new_post, count_posts
 
 
 @han.dle(increment)
 def increment(state):
     "Manually increment the state's number."
     return {
-        number: state["number"] + 1
+        "number": state["number"] + 1
     }
 
 

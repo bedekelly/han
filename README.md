@@ -173,6 +173,10 @@ when all the required values are present.
 *Todo*: How does the API for JSON Path construction using request data work?
 * `$.posts["user-{username}"]` example
 
+#### Persisting Data
+
+This app, as it stands, simply stores data in-memory. The plan in future
+is to use a document store like MongoDB.
 
 ## Front End
 
