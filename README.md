@@ -7,7 +7,7 @@ is a somewhat simplistic example of how it might be used.
 
 The state in this app is comprised of a number and a list of posts:
 
-```
+```python
 # model.py
 
 {
@@ -25,7 +25,7 @@ Four [actions](actions.py) can be used to change this state:
 
 An action can look like this:
 
-```
+```python
 {
     "type": "Count Posts"
 }
@@ -33,7 +33,7 @@ An action can look like this:
 
 or like this:
 
-```
+```python
 {
     "type": "New Post",
     "text": "..."
@@ -48,7 +48,7 @@ above.
 
 Actions are defined using the `Action` class:
 
-```
+```python
 # actions.py
 
 increment   = Action("Increment")
@@ -60,7 +60,7 @@ count_posts = Action("Count Posts")
 Notice that `new_post` uses a second parameter. Any number of parameters can
 be used. For example, an action to create a new address might look like this:
 
-```
+```python
 new_address = Action("New Address",
                      "house_number",
                      "street",
@@ -95,7 +95,7 @@ in the front-end section!
 It's also possible for an action handler to specify which bit of the state it's
 interested in.
 
-```
+```python
 # update.py
 
 @han.dle(decrement, "$.number")
@@ -125,7 +125,7 @@ reduces the amount of boilerplate code needed to extract data from the old
 state and build a new state. But even more importantly, you'll cut down on
 the number of state updates being sent to clients where it's not necessary.
 
-```
+```python
 # update.py
 
 @han.dle(count_posts, "$.posts", "$.number")
@@ -141,7 +141,7 @@ reads information from the `'posts'` field and returns the new value for the
 Finally, it's possible to add data to actions. For example, in this app we'd
 like to be able to add to the list of posts!
 
-```
+```python
 # update.py
 
 @han.dle(new_post, "$.posts")
