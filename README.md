@@ -34,8 +34,10 @@ An action can look like this:
 or like this:
 
 ```
+{
     "type": "New Post",
     "text": "..."
+}
 ```
 
 Actions always have a `"type"` key with a value of the Action name. This is
