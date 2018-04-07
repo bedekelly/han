@@ -73,7 +73,7 @@ new_address = Action("New Address",
 
 To [handle these actions](update.py) in this app, the `han.dle` decorator is used.
 
-```
+```python
 # update.py
 
 @han.dle(increment)
