@@ -46,7 +46,7 @@ so that Han knows which handlers to use.
 They can also have any number of other attributes, like "text" in the example
 above.
 
-####Defining Actions
+#### Defining Actions
 
 Actions are defined using the `Action` class:
 
@@ -72,7 +72,7 @@ new_address = Action("New Address",
                      "postcode")
 ```
 
-####Handling Actions
+#### Handling Actions
 
 To [handle these actions](update.py) in this app, the `han.dle` decorator is used.
 
@@ -95,7 +95,7 @@ return value will be used as the next state for the app. Any connected client
 will be sent the new state via their websocket connection – see more about this
 in the front-end section!
 
-####More Specific Handlers
+#### More Specific Handlers
 
 It's also possible for an action handler to specify which bit of the state it's
 interested in.
@@ -120,7 +120,7 @@ Here, the `take_one` function has specified that it only needs to know about
 the `"number"` part of the state. By default, this means that it only needs
 to return a new value for that number – not the whole state.
 
-####_Even More_ Specific Handlers
+#### Even _More_ Specific Handlers
 
 Sometimes, you might like to use one part of the state and change another.
 The example we're using here is to set the `'number'` field based on the
@@ -145,7 +145,7 @@ In the code above, our handler function `count_posts` has specified that it
 reads information from the `'posts'` field and returns the new value for the
 `'number'` field.
 
-####Actions with Data
+#### Actions with Data
 
 Finally, it's possible to add data to actions. For example, in this app we'd
 like to be able to add to the list of posts!
@@ -168,7 +168,8 @@ use the parameters defined in the `Action` to pass in this keyword argument.
 This is a useful type-checking tool to ensure that your handler is only called
 when all the required values are present.
 
-####Using Action Data with Specific Handlers
+#### Using Action Data with Specific Handlers
+
 *Todo*: How does the API for JSON Path construction using request data work?
 * `$.posts["user-{username}"]` example
 
