@@ -7,7 +7,8 @@ from .actions import increment, decrement, new_post, count_posts
 def increment(state):
     "Manually increment the state's number."
     return {
-        "number": state["number"] + 1
+        "number": state["number"] + 1,
+        "posts": state["posts"]
     }
 
 

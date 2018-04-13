@@ -6,14 +6,15 @@ from queue import Queue
 
 from flask_sockets import Sockets
 
-from .tree_utils import value_at
+from .tree import value_at, set_value_at
+from .path import mutual_contains
 
 
 class Han:
     def __init__(self, flask_app, initial_state):
         self.states = [initial_state]
         self.handlers = {}
-        self.state_updates = Queue()
+        self.state_updates = []
         self.sockets = Sockets(flask_app)
         self.add_api()
 
@@ -29,7 +30,6 @@ class Han:
     @state.setter
     def state(self, new_state):
         self.states.append(new_state)
-        print(self.states)
 
     def dispatch_action(self, action):
         "Dispatch an action to a handler, if there is one. Update our state."
@@ -37,23 +37,26 @@ class Han:
         handler, input_path, output_path = self.handlers[action["type"]]
         input_data = value_at(self.state, input_path)
         output_data = handler(input_data, **properties)
-        self.state_updates.put(output_data)
+        for update_queue in self.state_updates:
+            update_queue.put(StateUpdate(output_path, output_data))
         self.set_state_at(output_path, output_data)
 
     def set_state_at(self, path, new_data):
         "Write `data` to the state at the given JSON path."
-        new_state = copy.deepcopy(self.state)
-        containing_path = '.'.join(path.split(".")[:-1])
-        key = path.split(".")[-1]
-        current_state = value_at(new_state, containing_path)
-        current_state[key] = new_data
-        self.state = new_state
+        if path == "$":
+            self.state = new_data
+        else:
+            self.state = set_value_at(self.state, path, new_data)
 
     def state_updates_route(self, socket, path):
         "Send state updates over a websocket connection."
+        updates = Queue()
+        self.state_updates.append(updates)
+
         while not socket.closed:
-            state_update = self.state_updates.get()
-            socket.send(json.dumps(state_update))
+            state_update = updates.get()
+            if mutual_contains(path, state_update.path):
+                socket.send(json.dumps(value_at(self.state, path)))
 
     def actions_route(self, socket):
         "Receive actions over a websocket connection."
@@ -61,16 +64,17 @@ class Han:
             action = socket.receive()
             self.dispatch_action(json.loads(action))
 
-    def dle(self, action, input_path="$", output_path="$"):
-        "Return something which maps the given function to an action."
+    def dle(self, action, input_path="$", output_path=None):
+        "Return something which maps a given function to an action."
         def map_action_to(function):
             """
             When `action` is dispatched, we should call `function` with
             arguments `state[input_path]` and any properties in the action.
             Then take the result, and assign it to `state[output_path]`.
             """
+            out_path = output_path or input_path
             self.handlers[action.name] = ActionHandler(
-                function, input_path, output_path
+                function, input_path, out_path
             )
             return function
         return map_action_to
@@ -83,3 +87,4 @@ class Action:
 
 
 ActionHandler = namedtuple("ActionHandler", "handler, input_path, output_path")
+StateUpdate = namedtuple("StateUpdate", "path, data")
