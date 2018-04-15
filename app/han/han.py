@@ -53,6 +53,9 @@ class Han:
         updates = Queue()
         self.state_updates.append(updates)
 
+        # Send an initial state.
+        socket.send(json.dumps(value_at(self.state, path)))
+
         while not socket.closed:
             state_update = updates.get()
             if mutual_contains(path, state_update.path):
