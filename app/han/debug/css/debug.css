@@ -1,0 +1,91 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: aliceblue;
+}
+
+li {
+    list-style: none;
+}
+
+#app {
+    max-width: 800px;
+    width: 80vw;
+    background: white;
+    margin: 3vmin auto;
+    box-sizing: border-box;
+    padding: 45px;
+    font-family: 'Helvetica Neue';
+}
+
+#headers {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.diff-data {
+    display: inline-block;
+    align-self: center;
+    justify-self: right;
+}
+
+.snapshot {
+    display: grid;
+    grid-template-columns: 3fr 1fr 3fr;
+    padding-top: 20px;
+}
+
+.action-name {
+    align-self: center;
+}
+
+.diff-path {
+    justify-self: center;
+    align-self: center;
+    font-weight: bolder;
+}
+
+pre {
+    background: black;
+    color: white;
+    padding: 20px;
+}
+
+h2:nth-child(2) {
+    text-align: center;
+}
+
+h2:nth-child(3) {
+    text-align: right;
+}
+
+.state-button {
+    box-sizing: border-box;
+    color: inherit;
+    text-decoration: inherit;
+    background: black;
+    color: white;
+    padding: 15px;
+    border: 10px solid black;
+}
+
+.state-button:hover {
+    color: black;
+    box-sizing: border-box;
+    background: white;
+    border: 10px solid black;
+}
+
+.diff-path {
+    background: black;
+    color: white;
+    padding: 15px;
+}
+
+.snapshot {
+    font-size: 14pt;
+}

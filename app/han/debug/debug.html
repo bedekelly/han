@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Debug Interface</title>
+
+        <!-- CSS styling. -->
+        <link rel="stylesheet" href="css/debug.css">
+    </head>
+    <body>
+
+        <!-- HTML body. -->
+        <section id="app">
+            <section id="headers">
+                <h2>Action</h2>
+                <h2>Path</h2>
+                <h2>New Data</h2>
+            </section>
+            <li v-for="state in states">
+                <snapshot v-bind:state="state"></snapshot>
+            </li>
+        </section>
+
+        <!-- Main 'debug' script. -->
+        <script src="js/vue.js"></script>
+        <script src="js/debug.js"></script>
+
+    </body>
+</html>
